@@ -1,0 +1,33 @@
+html {
+    background-color: aquamarine;
+}
+
+nav {
+    background-color: azure;
+    width: 100%;
+    margin: 0;
+}
+
+nav ul {
+    display: grid;
+    list-style-type: none;
+    grid-template-columns: repeat(4, 1fr);
+    height: 50px;
+}
+
+nav li a {
+    display: block;
+    height: 100%;
+    width: 100%; 
+    text-align: center;
+    padding-top: 1em;
+    text-decoration: none;
+    font-size: larger;
+    color: black;
+}
+nav li a:visited {
+    color: black;
+}
+.selected {
+    background-color:beige;
+}
