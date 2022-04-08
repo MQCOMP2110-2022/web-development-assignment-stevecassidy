@@ -16,11 +16,17 @@ its own `package.json` file and node modules installed.  You will need to create
 that project when the time comes.
 
 In the main folder, you need to install the project dependencies (`http-server`
-to run the frontend server
-and `cypress` for testing):
+to run the frontend server and `cypress` for testing):
 
 ```shell
 npm install
+```
+
+Once you have done this you can run the frontend server from the main project
+directory with:
+
+```shell
+npm run frontend
 ```
 
 To run the tests you can open up the Cypress GUI:

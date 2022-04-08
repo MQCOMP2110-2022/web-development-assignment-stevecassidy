@@ -3,7 +3,7 @@ import { JobInfo } from './job-info.js'
 import { CompanyView } from './company.js'
 import { error404, aboutPage, helpPage } from './pages.js'
 import { Router } from './router.js'
-import { getJobs, getJob, getCompany, getCompanyJobs, loadData } from './model.js'
+import { Model } from './model.js'
 
 const router = new Router(error404)
 
@@ -21,21 +21,21 @@ const updateNavigation = (pageid) => {
 }
 
 router.get('/', () => {
-    const jobs = getJobs()
+    const jobs = Model.getJobs()
     JobList('main', jobs.slice(0, 10))
     updateNavigation('nav-home')
 })
 
 router.get('/jobs', (pathInfo) => {
     if (pathInfo.id) {
-        const job = getJob(pathInfo.id)
+        const job = Model.getJob(pathInfo.id)
         if (job) {
             JobInfo('main', job)
         } else {
             error404()
         }
     } else {
-        const jobs = getJobs()
+        const jobs = Model.getJobs()
         JobList(jobs)
     }
     updateNavigation('nav-jobs')
@@ -43,9 +43,9 @@ router.get('/jobs', (pathInfo) => {
 
 router.get('/companies', (pathInfo) => {
     if (pathInfo.id) {
-        const company = getCompany(pathInfo.id)
+        const company = Model.getCompany(pathInfo.id)
         if (company) {
-            const companyJobs = getCompanyJobs(company.id)
+            const companyJobs = Model.getCompanyJobs(company.id)
             CompanyView('main', company, companyJobs)
         } else {
             error404()
@@ -66,7 +66,12 @@ router.get('/help', () => {
     updateNavigation('nav-help')
 })
 
+window.addEventListener('modelUpdated', () => {
+    console.log("redrawing")
+    router.route()
+})
+
 window.onload = () => {
-    loadData(router)
+    Model.loadData()
 }
 

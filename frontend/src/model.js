@@ -1,63 +1,83 @@
 
-// global variable holding the list of jobs
-let DATA = {
-    jobs: [],
-    companies: []
-}
 
-export const getJobs = () => {
-    return DATA.jobs
-}
+export const Model = {
+    BASE_URL: 'http://localhost:1337/api/',
 
-export const getJob = (id) => {
-    for(let i=0; i<DATA.jobs.length; i++) {
-        const job = DATA.jobs[i] 
-        if (job.id == id) {
-            return job
+    DATA: {
+        jobs: [],
+        companies: []
+    },
+
+    getJobs: function() {
+        return this.DATA.jobs
+    },
+
+    getJob: function(id) {
+        for(let i=0; i<this.DATA.jobs.length; i++) {
+            const job = this.DATA.jobs[i] 
+            if (job.id == id) {
+                return job
+            }
         }
-    }
-    return null
-}
+        return null
+    },
 
-export const getCompany = (id) => {
-    for(let i=0; i<DATA.companies.length; i++) {
-        const company = DATA.companies[i] 
-        if (company.id == id) {
-            return company
+    getCompany: function(id) {
+        for(let i=0; i<this.DATA.companies.length; i++) {
+            const company = this.DATA.companies[i] 
+            if (company.id == id) {
+                return company
+            }
         }
-    }
-    return null
-}
+        return null
+    },
 
-export const getCompanyJobs = (id) => {
-    const result = []
-    for(let i=0; i<DATA.jobs.length; i++) {
-        const job = DATA.jobs[i] 
-        if (job.attributes.company.data.id == id) {
-            result.push(job)
+    getCompanyJobs: function(id) {
+        const result = []
+        for(let i=0; i<this.DATA.jobs.length; i++) {
+            const job = this.DATA.jobs[i] 
+            if (job.attributes.company.data && job.attributes.company.data.id == id) {
+                result.push(job)
+            }
         }
+
+        return result
+    },
+
+    loadData:  function() {
+
+        const joburl = this.BASE_URL + 'jobs?populate=company'
+
+        console.log("Loading job data...")
+        fetch(joburl) 
+        .then((response) => {
+            return response.json()
+        })
+        .then((data) => {
+            console.log("JOB DATA", data)
+            this.DATA.jobs = data.data
+
+            const event = new CustomEvent("modelUpdated")
+            window.dispatchEvent(event)
+
+        })
+
+        const companyurl = this.BASE_URL + 'companies'
+
+        console.log("Loading company data...")
+        fetch(companyurl) 
+        .then((response) => {
+            return response.json()
+        })
+        .then((data) => {
+            console.log("COMPANY DATA", data)
+            this.DATA.companies = data.data
+            const event = new CustomEvent("modelUpdated")
+            window.dispatchEvent(event)
+        })
+
+
     }
 
-    return result
-}
 
-export const loadData = (router) => {
-    //const url = 'http://localhost:1337/api/jobs?populate=company'
-    const url = '/sample-data.json'
-
-    console.log("Loading data...")
-    fetch(url) 
-    .then((response) => {
-        return response.json()
-    })
-    .then((data) => {
-        DATA = data
-        console.log("DATA", data)
-        router.route()
-    })
-    .catch(() => {
-        // if there's an error loading then just call the router
-        // to render a page
-        router.route()
-    })
 }
