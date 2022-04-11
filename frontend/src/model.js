@@ -5,7 +5,9 @@ export const Model = {
 
     DATA: {
         jobs: [],
-        companies: []
+        companies: [],
+        searchResult: [],
+        searchTerm: ''
     },
 
     getJobs: function() {
@@ -44,9 +46,38 @@ export const Model = {
         return result
     },
 
+    getSearchTerm: function() {
+        return this.DATA.searchTerm
+    },
+
+    searchJobs: function(term) {
+        const searchurl = this.BASE_URL + 
+                          'jobs?populate=company&filters[description][$containsi]=' +
+                          encodeURIComponent(term)
+
+        if (term != this.DATA.searchTerm) {
+            this.DATA.searchTerm = term
+            fetch(searchurl)
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+                console.log("SEARCH DATA", data)
+                this.DATA.searchresult = data.data
+
+                const event = new CustomEvent("modelUpdated")
+                window.dispatchEvent(event)
+            })
+        }
+    },
+
+    getSearchResult: function() {
+        return this.DATA.searchresult 
+    },
+
     loadData:  function() {
 
-        const joburl = this.BASE_URL + 'jobs?populate=company'
+        const joburl = this.BASE_URL + 'jobs?populate=company&sort[0]=publishedAt%3Adesc'
 
         console.log("Loading job data...")
         fetch(joburl) 

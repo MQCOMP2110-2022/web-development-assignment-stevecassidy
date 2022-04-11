@@ -20,9 +20,21 @@ const updateNavigation = (pageid) => {
     }
 }
 
+const bindings = () => {
+    console.log("Bindings", document.getElementById('searchbutton'))
+    document.getElementById('searchbutton').addEventListener("click", (e) => {
+        const term = document.getElementById('search').value
+        Model.searchJobs(term)
+        window.location.hash = '!/search/' + term
+        document.getElementById('search').value = ''
+        e.preventDefault()
+        false
+    })
+}
+
 router.get('/', () => {
     const jobs = Model.getJobs()
-    JobList('main', jobs.slice(0, 10))
+    JobList('main', {jobs: jobs.slice(0, 10)})
     updateNavigation('nav-home')
 })
 
@@ -36,7 +48,7 @@ router.get('/jobs', (pathInfo) => {
         }
     } else {
         const jobs = Model.getJobs()
-        JobList(jobs)
+        JobList('main', {jobs})
     }
     updateNavigation('nav-jobs')
 })
@@ -56,6 +68,17 @@ router.get('/companies', (pathInfo) => {
     }
 })
 
+
+router.get('/search', (pathInfo) => {
+
+    if (pathInfo.id === Model.getSearchTerm()) {
+        const jobs = Model.getSearchResult()
+        JobList('main', {jobs, term: pathInfo.id})
+    } else {
+        Model.searchJobs(pathInfo.id)
+    }
+})
+
 router.get('/about', () => {
     aboutPage('main')
     updateNavigation('nav-about')
@@ -72,6 +95,7 @@ window.addEventListener('modelUpdated', () => {
 })
 
 window.onload = () => {
+    bindings()
     Model.loadData()
 }
 
