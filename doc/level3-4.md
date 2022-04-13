@@ -14,8 +14,10 @@ The endpoints should be `/api/jobs`, `/api/companies` and `/api/job-applications
 is in order of the `publishedAt` field
 with more recent jobs shown first.   The ten most recent jobs are shown.  
 
-4. There is a search box on every page with a button labelled 'Search'.  When
-I enter text into the search box and click the button, a search is performed
+4. There is a search box on every page to allow the user to search for jobs. 
+The search box should be an `<input>` element with `id` of `search`. There
+should also be a submit button with `id` of `searchbutton`. 
+When I enter text into the search box and click the button, a search is performed
 and jobs that contain the search term in the `description` field are
 listed on the page.  (Note that for this initial implementation, search
 terms can be restricted to single words - or more precisely, strings that are
