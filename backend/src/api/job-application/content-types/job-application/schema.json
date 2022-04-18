@@ -4,18 +4,14 @@
   "info": {
     "singularName": "job-application",
     "pluralName": "job-applications",
-    "displayName": "Job Application"
+    "displayName": "Job Application",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "users_permissions_user": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "plugin::users-permissions.user"
-    },
     "text": {
       "type": "richtext"
     },
@@ -31,6 +27,11 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::job.job"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
     }
   }
 }

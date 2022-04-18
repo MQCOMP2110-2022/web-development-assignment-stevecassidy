@@ -32,8 +32,32 @@ if I click on a link sent to me by someone else).
 
 ## Level 4
 
-* User authentication
-* Apply button on each job links to a form to apply for a job.
-* Job application form linked up to creating a new JobApplication record in Strapi
-* User page shows jobs applied for
-* Users can 'star' companies and jobs so they appear on their user page
+1. If I am not logged in, there is a login form on every page with input
+boxes with names `username` and `password` and a button with `id` of `loginbutton`.
+
+2. If I fill in a valid username (`bob`) and password (`bobalooba`) and click
+the login button, then I am authenticated against the Strapi backend and a
+message is shown in place of the login form `Logged in as bob`.  A 
+logout button is also shown with the id `logoutbutton`.  The login form
+is no longer shown.
+
+3. If I fill in an invalid username and password and click the login button,
+then a message is shown in the page `Invalid Username or Password`.  
+
+4. If I have logged in and the logout button is visible, clicking on the 
+logout button logs me out and the login form is displayed again.
+
+5. If I have logged in, then the detail page for any job contains a
+`<button>` element with the label `Apply for this Job`.  Clicking on the button
+displays a form to create a job application - this should be a `textarea`
+input with name `text` and a button labelled `Submit Application`.
+
+6. If I fill in the text for a job application and click on `Submit Application`
+my application is submitted and saved and the page now shows the
+user page that includes a list of all jobs applied for by this user.
+
+7. The page showing the list of jobs applied for by this user has
+the URL hash `/#!/user`.  There is a link to this page on every
+page if the user is logged in.  Visiting this page at any time
+shows a list of the jobs applied for.  The list of jobs is in a
+similar format to the job list shown on the main page. 

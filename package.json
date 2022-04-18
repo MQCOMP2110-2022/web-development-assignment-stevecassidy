@@ -9,7 +9,7 @@
     "cy:testone": "cypress run -s cypress/integration/$SPEC_FILE",
     "test": "start-server-and-test frontend http-get://localhost:8083 cy:testone",
     "lint": "eslint --ext .js frontend/src",
-    "backend": "npm run -w backend start",
+    "backend": "npm run -w backend develop",
     "sampledata": "node ./uploadData.js"
   },
   "devDependencies": {

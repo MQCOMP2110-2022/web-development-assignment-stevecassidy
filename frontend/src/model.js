@@ -1,3 +1,4 @@
+import { Auth } from "./service.js"
 
 
 export const Model = {
@@ -7,7 +8,8 @@ export const Model = {
         jobs: [],
         companies: [],
         searchResult: [],
-        searchTerm: ''
+        searchTerm: '',
+        applications: []
     },
 
     getJobs: function() {
@@ -73,6 +75,65 @@ export const Model = {
 
     getSearchResult: function() {
         return this.DATA.searchresult 
+    },
+
+
+    submitJobApplication: function(user, jobid, text) {
+
+        console.log("JOBAPP", user, jobid, text)
+
+        const appurl = this.BASE_URL + 'job-applications'
+
+        fetch(appurl, {
+            method: 'POST',
+            headers: {
+                Authorization: 'bearer ' + Auth.getJWT(),
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                data: {
+                    user: user,
+                    job: jobid,
+                    text: text
+                }
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            const event = new CustomEvent("applicationResponse")
+            window.dispatchEvent(event)
+        })
+    },
+
+
+    loadJobApplications: function() {
+
+        const user = Auth.getUser()
+        const appurl = this.BASE_URL + 'job-applications?populate=job&filters[user][id][$eq]=' + user.id
+
+        console.log("Loading application data...")
+        fetch(appurl, {
+            headers: {
+                Authorization: 'bearer ' + Auth.getJWT(),
+                'Content-Type': 'application/json'
+            }
+        }) 
+        .then((response) => {
+            return response.json()
+        })
+        .then((data) => {
+            console.log("Application DATA", data)
+            this.DATA.applications = data.data
+
+            const event = new CustomEvent("modelUpdated")
+            window.dispatchEvent(event)
+
+        })
+    },
+
+    getJobApplications: function() {
+        return this.DATA.applications
     },
 
     loadData:  function() {

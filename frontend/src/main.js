@@ -4,8 +4,12 @@ import { CompanyView } from './company.js'
 import { error404, aboutPage, helpPage } from './pages.js'
 import { Router } from './router.js'
 import { Model } from './model.js'
+import { jobApplicationForm, loginForm, userPage } from './user.js'
+import { Auth } from './service.js'
 
 const router = new Router(error404)
+Auth.init()
+
 
 const updateNavigation = (pageid) => {
     const nav = document.getElementsByTagName('nav')[0]
@@ -18,10 +22,29 @@ const updateNavigation = (pageid) => {
             link.className = ""
         }
     }
+
+    const userInfo = document.getElementById("userinfo")
+    userInfo.innerHTML = loginForm(Auth.getUser(), Auth.getErrorMessage());
+    const loginform = document.getElementById('loginform')
+    if (loginform) {
+        loginform.onsubmit = (event) => {
+            event.preventDefault();
+            const user = loginform.elements['username'].value;
+            const password = loginform.elements['password'].value;
+            Auth.login(user, password);
+        }
+    }
+    const logoutbutton = document.getElementById('logoutbutton')
+    if (logoutbutton) {
+        logoutbutton.onclick = (event) => {
+            event.preventDefault()
+            Auth.logout()
+        }
+    }
 }
 
 const bindings = () => {
-    console.log("Bindings", document.getElementById('searchbutton'))
+
     document.getElementById('searchbutton').addEventListener("click", (e) => {
         const term = document.getElementById('search').value
         Model.searchJobs(term)
@@ -30,6 +53,31 @@ const bindings = () => {
         e.preventDefault()
         false
     })
+
+    const jab = document.getElementById('jobapplicationbutton')
+    if (jab) {
+        jab.addEventListener('click', (e) => {
+            console.log(e)
+            const jobid = e.target.dataset.job 
+            const form = jobApplicationForm(Auth.getUser(), jobid)
+            e.target.parentNode.innerHTML = form
+
+            const jaf = document.getElementById('jobapplicationform')
+            if (jaf) {
+                jaf.addEventListener('submit', (e) => {
+                    e.preventDefault()
+                    console.log(e)
+                    const formelements = e.target.elements
+                    Model.submitJobApplication(
+                        formelements['user'].value,
+                        formelements['jobid'].value,
+                        formelements['text'].value
+                    )
+                })
+            }
+
+        })
+    }
 }
 
 router.get('/', () => {
@@ -42,7 +90,7 @@ router.get('/jobs', (pathInfo) => {
     if (pathInfo.id) {
         const job = Model.getJob(pathInfo.id)
         if (job) {
-            JobInfo('main', job)
+            JobInfo('main', job, Auth.getUser())
         } else {
             error404()
         }
@@ -65,9 +113,15 @@ router.get('/companies', (pathInfo) => {
         updateNavigation('nav-companies')
     } else {
         error404()
+        updateNavigation('nav-home')
     }
 })
 
+router.get('/me', () => {
+    const apps = Model.getJobApplications(Auth.getUser())
+    userPage('main', Auth.getUser(), apps)
+    updateNavigation('nav-me')
+})
 
 router.get('/search', (pathInfo) => {
 
@@ -89,13 +143,23 @@ router.get('/help', () => {
     updateNavigation('nav-help')
 })
 
-window.addEventListener('modelUpdated', () => {
-    console.log("redrawing")
+const redraw = () => {
     router.route()
-})
+    bindings()
+}
+
+window.addEventListener('userLogin', redraw)
+
+window.addEventListener('modelUpdated', redraw)
+
+window.addEventListener('applicationResponse', () => {
+    window.location.hash = '!/me'
+    Model.loadJobApplications()
+    redraw()
+} )
 
 window.onload = () => {
-    bindings()
     Model.loadData()
+    Model.loadJobApplications()
 }
 

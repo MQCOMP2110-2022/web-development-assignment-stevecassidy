@@ -2,16 +2,21 @@ html {
     background-color: aquamarine;
 }
 
+header {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr 1fr;
+    background-color: blueviolet;
+}
 nav {
     background-color: azure;
-    width: 100%;
     margin: 0;
 }
 
 nav ul {
     display: grid;
     list-style-type: none;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     height: 50px;
 }
 

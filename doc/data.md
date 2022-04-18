@@ -57,11 +57,7 @@ that as your backend (Level 3).  The fields of interest in User for us are:
 A job application is completed by a User to apply for a particular Job.  
 
 * `id` - a unique integer identifier for the application
-* `user` - relation with User, the user applying for the job
+* `user` - relation with User (from: `users-permissions`), the user applying for the job
 * `job` - relation with Job, the job applied for
 * `text` - the text of the job application letter
-* `status` - one of `submitted`, `accepted`, `rejected`
 
-When a job application is submitted, the status is set to `submitted`. Once
-it has been reviewed by the company, the status will change to `accepted` or
-`rejected`.
