@@ -54,10 +54,11 @@ input with name `text` and a button labelled `Submit Application`.
 
 6. If I fill in the text for a job application and click on `Submit Application`
 my application is submitted and saved and the page now shows the
-user page that includes a list of all jobs applied for by this user.
+user page that includes a list of all jobs applied for by this user.  The
+list includes at least the title of each job.
 
 7. The page showing the list of jobs applied for by this user has
-the URL hash `/#!/user`.  There is a link to this page on every
+the URL hash `/#!/me`.  There is a link to this page on every
 page if the user is logged in.  Visiting this page at any time
-shows a list of the jobs applied for.  The list of jobs is in a
-similar format to the job list shown on the main page. 
+shows a list of the jobs applied for.  The list of jobs includes
+at least the title of each job applied for.
