@@ -1,5 +1,7 @@
 # Level 3 and 4 Requirements
 
+These levels involve installing and configuring the backend Strapi server. See
+[this document](backend.md) for details of how to do this.
 ## Level 3
 
 1. Strapi backend configured to store the jobs and company data.  When the server
