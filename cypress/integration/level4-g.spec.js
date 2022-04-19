@@ -5,7 +5,7 @@ var assert = chai.assert;
 
 describe("Level 4", () => {
 
-    it("L4e logged in user sees job application button", () => {
+    it("L4f logged in user can see job applications", () => {
 
       const username = 'bob'
       const password = 'bobalooba'
@@ -27,9 +27,19 @@ describe("Level 4", () => {
           const btn = cy.get('button')
           btn.contains('Apply for this Job')
           btn.click()
+          cy.wait(100)       
+          cy.get('textarea[name="text"]').type("Please give me a job.")
+          cy.get('input[type="submit"]').contains("Submit Application").click()
           cy.wait(100)
-          cy.get('textarea[name="text"]')
-          cy.get('input[type="submit"]').contains("Submit Application")
+          cy.get("html").contains(job.attributes.title)
+          cy.window().then(win => {
+              expect(win.location.hash).to.equal('#!/me')
+          })
+
+          cy.visit('http://localhost:8083/#!/me')
+          cy.wait(100)
+          cy.get("html").contains(job.attributes.title)
+
     })
 
     })

@@ -28,7 +28,7 @@ const jobAppTemplate = Handlebars.compile(`
     <textarea name='text'></textarea>
     <input type='hidden' name='user' value='{{user.id}}'>
     <input type='hidden' name='jobid' value='{{jobid}}'>
-    <input type='submit' value='Apply'>
+    <input type='submit' value='Submit Application'>
   </form>
 </div>`)
 

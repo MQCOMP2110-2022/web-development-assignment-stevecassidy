@@ -54,30 +54,6 @@ const bindings = () => {
         false
     })
 
-    const jab = document.getElementById('jobapplicationbutton')
-    if (jab) {
-        jab.addEventListener('click', (e) => {
-            console.log(e)
-            const jobid = e.target.dataset.job 
-            const form = jobApplicationForm(Auth.getUser(), jobid)
-            e.target.parentNode.innerHTML = form
-
-            const jaf = document.getElementById('jobapplicationform')
-            if (jaf) {
-                jaf.addEventListener('submit', (e) => {
-                    e.preventDefault()
-                    console.log(e)
-                    const formelements = e.target.elements
-                    Model.submitJobApplication(
-                        formelements['user'].value,
-                        formelements['jobid'].value,
-                        formelements['text'].value
-                    )
-                })
-            }
-
-        })
-    }
 }
 
 router.get('/', () => {

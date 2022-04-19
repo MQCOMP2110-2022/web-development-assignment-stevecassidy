@@ -110,26 +110,28 @@ export const Model = {
     loadJobApplications: function() {
 
         const user = Auth.getUser()
-        const appurl = this.BASE_URL + 'job-applications?populate=job&filters[user][id][$eq]=' + user.id
+        if (user) {
+            const appurl = this.BASE_URL + 'job-applications?populate=job&filters[user][id][$eq]=' + user.id
 
-        console.log("Loading application data...")
-        fetch(appurl, {
-            headers: {
-                Authorization: 'bearer ' + Auth.getJWT(),
-                'Content-Type': 'application/json'
-            }
-        }) 
-        .then((response) => {
-            return response.json()
-        })
-        .then((data) => {
-            console.log("Application DATA", data)
-            this.DATA.applications = data.data
+            console.log("Loading application data...")
+            fetch(appurl, {
+                headers: {
+                    Authorization: 'bearer ' + Auth.getJWT(),
+                    'Content-Type': 'application/json'
+                }
+            }) 
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+                console.log("Application DATA", data)
+                this.DATA.applications = data.data
 
-            const event = new CustomEvent("modelUpdated")
-            window.dispatchEvent(event)
+                const event = new CustomEvent("modelUpdated")
+                window.dispatchEvent(event)
 
-        })
+            })
+        }
     },
 
     getJobApplications: function() {
