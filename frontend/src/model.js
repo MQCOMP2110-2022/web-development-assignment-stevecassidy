@@ -37,14 +37,19 @@ export const Model = {
     },
 
     getCompanyJobs: function(id) {
+        console.log("GetCompanyJobs", id)
         const result = []
         for(let i=0; i<this.DATA.jobs.length; i++) {
-            const job = this.DATA.jobs[i] 
+            const job = this.DATA.jobs[i]
+            if (job.attributes.company.data) {
+                console.log("CD", job.attributes.company.data.id)
+            }
             if (job.attributes.company.data && job.attributes.company.data.id == id) {
+                console.log("yes", job)
                 result.push(job)
             }
         }
-
+        console.log("RES:", result)
         return result
     },
 

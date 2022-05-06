@@ -6,7 +6,7 @@ import { Model } from "./model.js"
 
 const template = Handlebars.compile(`
  <div class='job'>
-    <h3>{{attributes.title}}</h3>
+    <h3>{{job.attributes.title}}</h3>
     {{#if user}}
     <div id="jobapplication">
       <button id='jobapplicationbutton' data-job='{{job.id}}'>Apply for this Job</button>

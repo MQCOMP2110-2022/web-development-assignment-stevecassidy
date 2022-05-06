@@ -1,9 +1,8 @@
 
-
 var assert = chai.assert;
 
 
-describe("Level 3", () => {
+describe("Level 3e", () => {
 
     it("L3e Search results on #!/search/<term>", () => {
     
@@ -16,7 +15,8 @@ describe("Level 3", () => {
         cy.get('#searchbutton')
           .should('be.visible')
           .click()
-        // check for jobs matching search term
+        cy.wait(100)
+        // check that the url has changed
         cy.window().then(win => {
           expect(win.location.hash).to.equal('#!/search/'+searchterm)
         })
@@ -24,15 +24,16 @@ describe("Level 3", () => {
     
     it("L3e Requesting search page performs a search", () => {
     
-      const searchterm = 'bowery'
+      const searchterm = 'CircleCI'
       cy.visit('http://localhost:8083/#!/search/'+searchterm)
+      cy.wait(100)
       cy.get(".job")
-      .should('have.length', 2)
+      .should('have.length', 3)
       .each($job => {
         cy.wrap($job)
-          .contains('Full Stack Software Engineer')
+          .contains('Engineer')
         cy.wrap($job)
-          .contains('New York')
+          .contains('Remote')
       })
   })
 

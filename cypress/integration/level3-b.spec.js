@@ -1,10 +1,9 @@
 
-
 var assert = chai.assert;
 
+describe("Level 3b", () => {
 
-describe("Level 2", () => {
- 
+
     it("L3a Strapi server is running on port 1337 and the endpoints are in place", () => {
 
         cy.request('http://localhost:1337/api/jobs')

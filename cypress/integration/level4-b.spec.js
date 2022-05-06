@@ -1,16 +1,17 @@
-
+var utils = require('./utils.js')
 
 var assert = chai.assert;
 
 
-describe("Level 4", () => {
+describe("Level 4b", () => {
 
+  
     it("L4b login with correct user details", () => {
 
       const username = 'bob'
       const password = 'bobalooba'
-      cy.visit('http://localhost:8083/');
-      cy.wait(100);
+      cy.visit('http://localhost:8083/')
+      cy.wait(100)
       cy.get('input[name="username"]').type(username)
       cy.get('input[name="password"]').type(password)
 

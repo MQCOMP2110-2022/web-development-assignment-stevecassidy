@@ -44,15 +44,18 @@ const updateNavigation = (pageid) => {
 }
 
 const bindings = () => {
+    console.log("bindings...")
 
-    document.getElementById('searchbutton').addEventListener("click", (e) => {
+    document.getElementById('searchbutton').onclick =  (e) => {
+        e.preventDefault()
         const term = document.getElementById('search').value
         Model.searchJobs(term)
+        console.log("changing hash...", term)
         window.location.hash = '!/search/' + term
         document.getElementById('search').value = ''
-        e.preventDefault()
+
         false
-    })
+    }
 
 }
 

@@ -1,9 +1,8 @@
-
+var utils = require('./utils.js')
 
 var assert = chai.assert;
 
-
-describe("Level 4", () => {
+describe("Level 4g", () => {
 
     it("L4f logged in user can see job applications", () => {
 
@@ -38,6 +37,7 @@ describe("Level 4", () => {
 
           cy.visit('http://localhost:8083/#!/me')
           cy.wait(100)
+          // look for the title of the job we applied for
           cy.get("html").contains(job.attributes.title)
 
     })

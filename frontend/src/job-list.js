@@ -19,6 +19,7 @@ const template = Handlebars.compile(`
  </div>`)
 
  export const JobList = (id, jobInfo) => {
-    const target = document.getElementById(id)
+
+   const target = document.getElementById(id)
     target.innerHTML = template(jobInfo)
  }

@@ -12,9 +12,10 @@ const template = Handlebars.compile(`
 </div>`)
 
 export const CompanyView = (id, company, jobs) => {
+   console.log("CC", jobs)
    const target = document.getElementById(id)
    target.innerHTML = template(company)
-   JobList('joblist', jobs)
+   JobList('joblist', {jobs})
 }
 
 

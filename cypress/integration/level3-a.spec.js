@@ -3,7 +3,7 @@
 var assert = chai.assert;
 
 
-describe("Level 3", () => {
+describe("Level 3a", () => {
 
     it("L3a Strapi server is running on port 1337 and the endpoints are in place", () => {
 
@@ -15,9 +15,14 @@ describe("Level 3", () => {
         .its('headers').its('content-type')
         .should('include', 'application/json') 
 
-        cy.request('http://localhost:1337/api/job-applications')
-        .its('headers').its('content-type')
-        .should('include', 'application/json')
+        // requests for job-applications should be blocked 
+        // because authentication is required
+        cy.request({
+            url: 'http://localhost:1337/api/job-applications',
+            failOnStatusCode: false
+        })
+        .its('status').should('equal', 403)
+
     })
 
     
