@@ -1,6 +1,4 @@
 
-var utils = require('./utils.js')
-
 var assert = chai.assert;
 
 describe("Level 3c", () => {

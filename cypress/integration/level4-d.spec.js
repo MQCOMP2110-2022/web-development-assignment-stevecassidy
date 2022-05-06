@@ -1,4 +1,3 @@
-var utils = require('./utils.js')
 
 
 var assert = chai.assert;
